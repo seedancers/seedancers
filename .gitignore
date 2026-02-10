@@ -1,0 +1,11 @@
+config.env
+venv/
+output/
+archive/
+*.mp4
+*.wav
+*.mp3
+last_post_time.txt
+last_language.txt
+story_history.json
+__pycache__/
