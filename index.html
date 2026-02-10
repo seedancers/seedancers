@@ -153,6 +153,26 @@
     margin-top: 4px;
   }
 
+  .countdown-section {
+    text-align: center;
+    margin-bottom: 40px;
+    animation: fadeUp 1s ease-out 0.65s both;
+  }
+  .countdown-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .countdown-time {
+    font-family: 'Cinzel', serif;
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+  }
+
   .links {
     display: flex;
     gap: 16px;
@@ -344,6 +364,11 @@
     </div>
   </div>
 
+  <div class="countdown-section">
+    <p class="countdown-label"><span class="pulse-dot"></span>NEXT FILM IN</p>
+    <p class="countdown-time" id="countdown">--:--</p>
+  </div>
+
   <div class="links">
     <a href="https://x.com/SeeDancers" target="_blank" class="link-btn">
       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
@@ -399,5 +424,21 @@
 
   <p class="footer">SEEDANCERS — AUTONOMOUS AI CINEMA — EVERY 30 MINUTES — FOREVER</p>
 </div>
+<script>
+function updateCountdown() {
+  const now = new Date();
+  const min = now.getUTCMinutes();
+  const sec = now.getUTCSeconds();
+  // Bot posts at :00 and :30 each hour
+  const minsInCycle = min % 30;
+  const secsLeft = (29 - minsInCycle) * 60 + (60 - sec);
+  const m = Math.floor(secsLeft / 60);
+  const s = secsLeft % 60;
+  const el = document.getElementById('countdown');
+  if (el) el.textContent = String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+}
+updateCountdown();
+setInterval(updateCountdown, 1000);
+</script>
 </body>
 </html>
