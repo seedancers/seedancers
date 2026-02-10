@@ -426,16 +426,23 @@
 </div>
 <script>
 function updateCountdown() {
-  const now = new Date();
-  const min = now.getUTCMinutes();
-  const sec = now.getUTCSeconds();
-  // Bot posts at :00 and :30 each hour
-  const minsInCycle = min % 30;
-  const secsLeft = (29 - minsInCycle) * 60 + (60 - sec);
-  const m = Math.floor(secsLeft / 60);
-  const s = secsLeft % 60;
   const el = document.getElementById('countdown');
-  if (el) el.textContent = String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+  if (!el) return;
+  const nextPost = el.getAttribute('data-next-post');
+  if (!nextPost || nextPost === '--:--') {
+    el.textContent = 'SOON';
+    return;
+  }
+  const target = new Date(nextPost).getTime();
+  const now = Date.now();
+  const diff = Math.max(0, Math.floor((target - now) / 1000));
+  if (diff <= 0) {
+    el.textContent = 'CREATING...';
+    return;
+  }
+  const m = Math.floor(diff / 60);
+  const s = diff % 60;
+  el.textContent = String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
 }
 updateCountdown();
 setInterval(updateCountdown, 1000);
